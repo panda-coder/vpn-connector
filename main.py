@@ -13,13 +13,13 @@ import subprocess
 import pexpect
 
 import base64, pyotp
-import sys
+import sys, os
 
 from dotenv import load_dotenv
 load_dotenv()
 
 
-USER = os.environ.get('USER')
+USER = os.environ.get('VPN_USER')
 PASSWORD = os.environ.get('PASSWORD')
 OVPN_FILE = os.environ.get('OVPN')
 TOTP = os.environ.get('TOTP')
@@ -87,13 +87,13 @@ class VpnConnector():
       self.menu_options['connect'].set_sensitive(True)
 
    def init_process(self):
-      self.process = pexpect.spawn(f'sudo openvpn {OVPN}', encoding='utf-8')
+      self.process = pexpect.spawn(f'sudo openvpn {OVPN_FILE}', encoding='utf-8')
       self.process.logfile = sys.stdout
    
    def user_prompt(self):
       i = self.process.expect ([USER_PROMPT])
       if i == 0:
-         self.process.sendline()
+         self.process.sendline(USER)
 
    def pass_prompt(self):
       totp = pyotp.TOTP(TOTP)
