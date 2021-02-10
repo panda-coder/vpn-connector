@@ -116,7 +116,6 @@ class VpnConnector():
    def loop(self):
 
       if self.process is None and self.connect_config:
-         # self.process = subprocess.Popen(['openvpn', './ovpn/ercy.neto@finnet.corp__ssl_vpn_config.ovpn'], stdout=subprocess.PIPE,stdin=subprocess.PIPE)
          self.init_process()
 
          try:
